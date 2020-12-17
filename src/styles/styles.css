@@ -142,12 +142,42 @@
 /* table */
 .table-wrapper {
   display: flex;
+  align-items: center;
   margin-bottom: 1rem;
+}
+
+.table-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.table-controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  line-height: 100%;
+}
+
+.control-unit {
+  font-family: "Source Sans Pro", sans-serif;
+  text-decoration: none;
+}
+
+.active {
+  border-bottom-style: dashed;
+}
+
+.table-controls-units-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .table-title {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1rem;
+
   color: var(--main);
 }
 
