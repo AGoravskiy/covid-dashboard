@@ -24,18 +24,31 @@ export function addMarker(data,index) {
         })
         legenBox.length = 0;
     };
+
+    let grades = [];
+    let colors = [];
+    if(index == "cases"){
+        grades = [1000, 10000, 100000, 500000, 1000000, 1500000, 2000000];
+        colors = ['#800026','#BD0026','#E31A1C','#FC4E2A','#FD8D3C','#FEB24C','#FED976','#FFEDA0'];
+    }
+    if(index == "recovered"){
+        grades = [1000, 10000, 100000, 500000, 1000000, 1500000, 2000000];
+        colors = ['#00441b','#006d2c','#238b45','#41ab5d','#74c476','#a1d99b','#c7e9c0','#e5f5e0'];
+    }
+    if(index == "deaths"){
+        grades = [1000, 10000, 20000, 50000, 100000, 200000, 300000];
+        colors = ['#08306b','#08519c','#2171b5','#4292c6','#6baed6','#9ecae1','#c6dbef','#deebf7'];
+    }
     
-
     function getColor(d) {
-
-        return d > 2000000 ? '#800026' :
-                d > 1500000  ? '#BD0026' :
-                d > 1000000  ? '#E31A1C' :
-                d > 500000  ? '#FC4E2A' :
-                d > 100000   ? '#FD8D3C' :
-                d > 10000   ? '#FEB24C' :
-                d > 1000   ? '#FED976' :
-                            '#FFEDA0';
+        return d > grades[6] ? colors[0] :
+                d > grades[5]  ? colors[1] :
+                d > grades[4]  ? colors[2] :
+                d > grades[3]  ? colors[3] :
+                d > grades[2]   ? colors[4] :
+                d > grades[1]   ? colors[5] :
+                d > grades[0]   ? colors[6] :
+                            colors[7];
         }
 
     for(let i = 0; i < data.length ; i++){
@@ -64,13 +77,9 @@ export function addMarker(data,index) {
         item.closePopup()
         })
     })
-    
     let  legend = L.control({position: 'bottomright'});
-
     legend.onAdd = function (map) {
-
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [1000, 10000, 100000, 500000, 1000000, 1500000, 2000000],
         labels = [];
 
     div.innerHTML += `<div class="map-legend-title">${index} :</div>`;
@@ -88,6 +97,30 @@ export function addMarker(data,index) {
     };
     legend.addTo(map);
     legenBox.push(legend);
-
-
 } 
+
+const mapBottons = L.control({ position: 'bottomleft' });
+mapBottons.onAdd = function(){
+    const div = L.DomUtil.create('div', 'map-bottons');
+    div.innerHTML += `<div id ="cases" class="map-botton">Cases</div>`;
+    div.innerHTML += `<div id ="recovered" class="map-botton">Recovered</div>`;
+    div.innerHTML += `<div id ="deaths" class="map-botton">Deaths</div>`;
+    return div
+}
+mapBottons.addTo(map);
+
+export function addButtons(data){
+    let recovered = document.getElementById("recovered")
+    recovered.addEventListener('click',(event) =>{
+        addMarker(data, 'recovered');
+    })
+    let cases = document.getElementById("cases")
+    cases.addEventListener('click',(event) =>{
+        addMarker(data, 'cases');
+    })
+    let deaths = document.getElementById("deaths")
+    deaths.addEventListener('click',(event) =>{
+        addMarker(data, 'deaths');
+})
+
+}
