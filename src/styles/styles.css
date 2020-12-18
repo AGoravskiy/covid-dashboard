@@ -1,4 +1,4 @@
-@import "~normalize.css";
+/* @import "~normalize.css"; */
 
 :root {
   --positive: #5f7367;
@@ -9,7 +9,7 @@
 
 /* page and greed layout*/
 * {
-  background-color: var(--background);
+  /* background-color: var(--background); */
 }
 
 .dash-grid-layout {
