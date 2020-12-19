@@ -5,5 +5,5 @@ fetch('https://corona.lmao.ninja/v3/covid-19/countries')
   .then((data) => {
     addMarker(data, 'cases');
     addButtons(data)
-    
+    focusOnCountry(data,'Belarus')
   });
