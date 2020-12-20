@@ -1,7 +1,7 @@
-import tables from './tables.constants';
+import tableParams from './tables.constants';
 import covidAPI from './covidAPI.constants';
 
 export default {
-  tables,
+  tableParams,
   covidAPI,
 };

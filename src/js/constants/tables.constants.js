@@ -1,7 +1,16 @@
-const tables = [
+const allTimeStats = [
   'cases',
   'deaths',
   'recovered',
 ];
 
-export default tables;
+const todayStats = [
+  'todayCases',
+  'todayDeaths',
+  'todayRecovered',
+];
+
+export default {
+  allTimeStats,
+  todayStats,
+};
