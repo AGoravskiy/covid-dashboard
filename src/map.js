@@ -3,12 +3,31 @@ const mapOptions = {
   zoom: 2,
 };
 export const map = new L.map('mymap', mapOptions);
-const layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+const layer = new L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+  maxZoom: 20,
+  attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
+});
 map.addLayer(layer);
 
 const countries = [];
 const legenBox = [];
 const activeIndex = [];
+
+export function focusOnCountry(data, chooseCountry) {
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].country === chooseCountry) {
+      map.setView([data[i].countryInfo.lat, data[i].countryInfo.long], 5);
+
+      const c = L.circle([data[i].countryInfo.lat, data[i].countryInfo.long], {
+        color: '#08306b',
+        fillOpacity: 0.3,
+        radius: 300000,
+        className: 'blink',
+      }).addTo(map);
+      setTimeout(() => { c.removeFrom(map); }, 3000);
+    }
+  }
+}
 
 export function addMarker(data, index) {
   activeIndex.length = 0;
@@ -39,7 +58,7 @@ export function addMarker(data, index) {
   }
   if (index === 'deaths') {
     grades = [1000, 10000, 20000, 50000, 100000, 200000, 300000];
-    colors = ['#08306b', '#08519c', '#2171b5', '#4292c6', '#6baed6', '#9ecae1', '#c6dbef', '#deebf7'];
+    colors = ['#14075b','#08306b', '#08519c', '#2171b5', '#4292c6', '#6baed6', '#9ecae1', '#c6dbef'];
   }
 
   function getColor(d) {
@@ -80,6 +99,7 @@ export function addMarker(data, index) {
       fillColor: getColor(data[i][index]),
       fillOpacity: 0.5,
       radius: 100000,
+      country: data[i].country,
     }).addTo(map).bindPopup(
       `
             <b>${data[i].country}</b><img style="height:100%" src = ${data[i].countryInfo.flag} ><br>
@@ -97,6 +117,11 @@ export function addMarker(data, index) {
       item.closePopup();
     });
   });
+  countries.forEach((item) => {
+    item.addEventListener('click', () => {
+      focusOnCountry(data, item.options.country);
+    });
+  });
   const legend = L.control({ position: 'bottomright' });
   legend.onAdd = function () {
     const div = L.DomUtil.create('div', 'info legend');
@@ -108,8 +133,6 @@ export function addMarker(data, index) {
                 <div class="map-legen-marker" style="background: ${getColor(grades[i] + 1)}">
                     ${grades[i]}${(grades[i + 1] ? `&ndash;${grades[i + 1]}<br>` : '+')}
                 </div>
-                
-
             `;
     }
     return div;
@@ -141,19 +164,4 @@ export function addButtons(data) {
   deaths.addEventListener('click', () => {
     addMarker(data, 'deaths');
   });
-}
-export function focusOnCountry(data, chooseCountry) {
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].country === chooseCountry) {
-      map.setView([data[i].countryInfo.lat, data[i].countryInfo.long], 5);
-
-      const c = L.circle([data[i].countryInfo.lat, data[i].countryInfo.long], {
-        color: '#08306b',
-        fillOpacity: 0.3,
-        radius: 300000,
-        className: 'blink',
-      }).addTo(map);
-      setTimeout(() => { c.removeFrom(map); }, 3000);
-    }
-  }
 }
