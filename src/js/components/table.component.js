@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-debugger */
 import utils from '../utils/index.util';
 import constants from '../constants/index.constants';
 
@@ -119,7 +117,6 @@ const generateTables = (covidStats) => {
   addStatsPer100K(covidStats);
   const tablesWrapper = utils.create('div', 'table-wrapper');
   const tableParams = findTableParams();
-  console.log(tableParams);
   tableParams.forEach((params) => {
     sortCovidStats(covidStats.countriesStats, params);
     const tableLayout = utils.create('table', 'table', [generateTableHead(params, tableParams.indexOf(params)), generateTableBody(covidStats.countriesStats, params)]);
