@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-debugger */
 import utils from '../utils/index.util';
 import constants from '../constants/index.constants';
 
@@ -7,39 +9,46 @@ let isTotalAmount = true;
 const generateTableBody = (covidData, title) => {
   const tableBody = utils.create('tbody', 'table-body');
   covidData.forEach((country) => {
-    const countryFlag = utils.create('td', 'table-img',
-      utils.create('img', null, null, null, ['src', `${country.countryInfo.flag}`]));
-    const tableValueText = isTotalAmount
-      ? utils.addSpaces(country[title])
-      : utils.addSpaces(utils.recalcAmount(country[title], country.population));
-    const tableValue = utils.create('td', 'table-digits', tableValueText);
-    const tableCountry = utils.create('td', 'table-letters', country.country);
-    utils.create('tr', null, [tableValue, countryFlag, tableCountry], tableBody);
+    if (!Number.isNaN(country[title]) && country[title] !== Infinity) {
+      const countryFlag = utils.create('td', 'table-img',
+        utils.create('img', null, null, null, ['src', `${country.countryInfo.flag}`]));
+      const tableValueText = utils.addSpaces(country[title]);
+      const tableValue = utils.create('td', 'table-digits', tableValueText);
+      const tableCountry = utils.create('td', 'table-letters', country.country);
+      utils.create('tr', 'table-row', [tableValue, countryFlag, tableCountry], tableBody);
+    }
   });
   return tableBody;
 };
 
-const generateTableHead = (title) => {
+const generateTableHead = (title, index) => {
   const headTh = utils.create('th', 'table-title', `Global ${title}`, null, ['colspan', '3'], ['table', title]);
-  if (title === 'cases' || title === 'todayCases') {
+  if (index === 0) {
     headTh.classList.add('negative');
   }
-  const headTr = utils.create('tr', null, headTh);
+  const headTr = utils.create('tr', 'table-row', headTh);
   return utils.create('thead', 'table-title-wrapper', headTr);
+};
+
+const findTableParams = () => {
+  if (isAllTimeStats && isTotalAmount) {
+    return constants.tableParams.allTimeStats;
+  } if (isAllTimeStats && !isTotalAmount) {
+    return constants.tableParams.allTimeStatsPer100K;
+  } if (!isAllTimeStats && isTotalAmount) {
+    return constants.tableParams.todayStats;
+  }
+  return constants.tableParams.todayStatsPer100K;
 };
 
 const generateTableFooter = (covidStats) => {
   const tableFooter = utils.create('div', 'table-footer');
-  const tableParams = isAllTimeStats
-    ? constants.tableParams.allTimeStats
-    : constants.tableParams.todayStats;
+  const tableParams = findTableParams();
   tableParams.forEach((params) => {
-    const footerDigitText = isTotalAmount
-      ? utils.addSpaces(covidStats[params])
-      : utils.addSpaces(utils.recalcAmount(covidStats[params], covidStats.population));
+    const footerDigitText = utils.addSpaces(covidStats[params]);
     const footerDigit = utils.create('span', 'table-footer-digit', footerDigitText);
     const footerLetters = utils.create('span', 'table-footer-letters', 'Total');
-    if (params === 'cases' || params === 'todayCases') {
+    if (tableParams.indexOf(params) === 0) {
       footerDigit.classList.add('negative');
       footerLetters.classList.add('negative');
     }
@@ -56,32 +65,64 @@ const generateTableFooter = (covidStats) => {
 };
 
 const sortCovidStats = (covidStats, params) => {
-  if (isTotalAmount) {
-    covidStats.sort((countryFirst, countrySecond) => countrySecond[params] - countryFirst[params]);
-  } else {
-    if (params === 'cases' || params === 'todayCases') {
-      covidStats.sort((countryFirst, countrySecond) => countrySecond.casesPerOneMillion
-        - countryFirst.casesPerOneMillion);
-    }
-    if (params === 'deaths' || params === 'todayDeaths') {
-      covidStats.sort((countryFirst, countrySecond) => countrySecond.deathsPerOneMillion
-        - countryFirst.deathsPerOneMillion);
-    }
-    if (params === 'recovered' || params === 'todayRecovered') {
-      covidStats.sort((countryFirst, countrySecond) => countrySecond.recoveredPerOneMillion
-        - countryFirst.recoveredPerOneMillion);
-    }
+  covidStats.sort((countryFirst, countrySecond) => countrySecond[params] - countryFirst[params]);
+};
+
+const addStatsPer100K = (covidStats) => {
+  const updatingStats = covidStats;
+  if (!Object.prototype.hasOwnProperty.call(updatingStats.countriesStats[0], 'casesPer100K')) {
+    constants.tableParams.allTimeStats.forEach((param) => {
+      updatingStats.countriesStats.forEach((country) => {
+        const currentCountry = country;
+        currentCountry[`${param}Per100K`] = utils.recalcAmountPer100K(country[`${param}`], country.population);
+      });
+    });
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(updatingStats.countriesStats[0], 'todayCasesPer100K')) {
+    constants.tableParams.todayStats.forEach((param) => {
+      updatingStats.countriesStats.forEach((country) => {
+        const currentCountry = country;
+        currentCountry[`${param}Per100K`] = utils.recalcAmountPer100K(country[`${param}`], country.population);
+      });
+    });
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(updatingStats.generalStats, 'todayCasesPer100K')) {
+    constants.tableParams.todayStatsPer100K.forEach((param) => {
+      const todayStatsPer100K = updatingStats.countriesStats.reduce((sum, country) => {
+        let currentSum = sum;
+        if (parseInt(country[param], 10)) {
+          currentSum += parseInt(country[param], 10);
+        }
+        return currentSum;
+      }, 0);
+      updatingStats.generalStats[param] = todayStatsPer100K;
+    });
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(updatingStats.generalStats, 'casesPer100K')) {
+    constants.tableParams.allTimeStatsPer100K.forEach((param) => {
+      const statsPer100K = updatingStats.countriesStats.reduce((sum, country) => {
+        let currentSum = sum;
+        if (parseInt(country[param], 10)) {
+          currentSum += parseInt(country[param], 10);
+        }
+        return currentSum;
+      }, 0);
+      updatingStats.generalStats[param] = statsPer100K;
+    });
   }
 };
 
 const generateTables = (covidStats) => {
+  addStatsPer100K(covidStats);
   const tablesWrapper = utils.create('div', 'table-wrapper');
-  const tableParams = isAllTimeStats
-    ? constants.tableParams.allTimeStats
-    : constants.tableParams.todayStats;
+  const tableParams = findTableParams();
+  console.log(tableParams);
   tableParams.forEach((params) => {
     sortCovidStats(covidStats.countriesStats, params);
-    const tableLayout = utils.create('table', 'table', [generateTableHead(params), generateTableBody(covidStats.countriesStats, params)]);
+    const tableLayout = utils.create('table', 'table', [generateTableHead(params, tableParams.indexOf(params)), generateTableBody(covidStats.countriesStats, params)]);
     utils.create('div', '', tableLayout, tablesWrapper);
 
     const domTableWrapper = document.querySelector('.table-wrapper');

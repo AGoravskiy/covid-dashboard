@@ -1,10 +1,10 @@
 import create from './create.util';
 import getCovidStats from './getCovidStats.util';
 import addSpaces from './addSpaces.util';
-import recalcAmount from './recalcAmount.util';
+import recalcAmountPer100K from './recalcAmountPer100K.util';
 
 export default {
-  recalcAmount,
+  recalcAmountPer100K,
   addSpaces,
   create,
   getCovidStats,
