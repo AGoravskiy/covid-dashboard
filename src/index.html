@@ -14,7 +14,7 @@
     <title>Covid-19 Dashboard</title>
 </head>
 <body>
-    <div class="dash-grid-layout">
+    <div class="dash-grid-layout" id = "dashBoardContainer">
         <section id = "header" class="header-title-wrapper">
             <div class="logo-block">
                 <h1 class="header-title">Covid dashboard</h1>
@@ -28,7 +28,7 @@
               </form>
         </section>
         <section id = "table" >
-            <div class="table-title-wrapper">
+            <div class="block-title-wrapper">
                 <h2 class="sub-title">TOP-10</h2>
                 <div class="table-controls">
                     <div class="table-controls-units-wrapper">
@@ -234,7 +234,27 @@
                 style="position:relative;"></iframe></div> -->
         </section>
         <section id = "chart" class="chart-wrapper">
-            <h2 class="sub-title">Chart</h2>
+            
+            <div class="block-title-wrapper" >
+                <h2 class="sub-title">Chart</h2>
+            <div class="table-controls">
+                <div class="table-controls-units-wrapper">
+                    <a href="#" class="control-unit">24H</a>
+                    <p>/</p>
+                    <a href="#" class="control-unit active">All Time</a>
+                </div>
+                
+                <div class="table-controls-units-wrapper">
+                    <a href="#" class="control-unit active"> Total Amount</a>
+                    <p>/</p>
+                    <a href="#" class="control-unit">per 100K citizens</a>
+                </div>
+                <a href="#" id = 'chart-full-screen'>
+                    <img src="./assets/images/icons/open_in_full-24px.svg" alt="" id = 'chart-full-screen-on'>
+                    <img src="./assets/images/icons/close_fullscreen-24px.svg" id = 'chart-full-screen-off' class="hidden" alt="">
+                </a>
+            </div>
+            </div>
             <canvas id = "chart-field" class="chart-field"></canvas>
             
         </section>
@@ -244,6 +264,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 <script src="./drawChart.js" type = 'module'></script>
+<script src="./fullScreenToggle.js" type = 'module'></script>
 <script src="index.js" type="module"></script>
 </body>
 </html>
