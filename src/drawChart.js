@@ -12,12 +12,12 @@
 // сonst totalRecovered // кривая, в ней накапливается сумма случаев.
 
 // function per100KCitizens(amount){
-//   const per100k = amount / 100000;
+//
 //   const per100KStatus = true;
 //   return per100k, per100KStatus
 // }
 
-import Chart from "chart.js";
+// import Chart from "chart.js";
 let ctx = document.getElementById("chart-field").getContext("2d");
 
 const pandemiaStart = new Date(2020, 0, 22, 0, 0, 0, 0);
@@ -31,6 +31,13 @@ const totalCases = `https://disease.sh/v3/covid-19/historical/all?lastdays=${pan
 //может быть универсальная функция, которой надо сообщить урл и свойство, она из него свернет массив
 const dates = [];
 const cases = [];
+const per100K = 100000;
+const is100KView = false;
+
+// function(amount){
+//   const is100KView = true;
+//   return amount / 100000;
+// }
 
 function getData(url) {
   fetch(url)
@@ -43,6 +50,7 @@ function getData(url) {
       allTimeCases.forEach((el) => {
         dates.push(el[0]);
         cases.push(el[1]);
+        // cases.push(Math.round(el[1] / per100K));
       });
       console.log(dates);
       console.log(cases);
@@ -89,19 +97,9 @@ function getData(url) {
       });
     });
 }
+getData(totalCases);
 
 //в функцию надо передоавать url, тип графика, ось X, название. Потом подумать, как это поделить на кусочкиё
-
-// console.log(allTimeCases);
-// console.log(allTimeCases[0]);
-// console.log(typeof allTimeCases);
-
-// const tempArr = allTimeCases;
-// tempArr.forEach((el) => {
-//   console.log(el);
-// });
-
-getData(totalCases);
 
 // console.log(Object.entries(allTimeCases));
 
