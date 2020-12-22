@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import utils from '../utils/index.util';
 import constants from '../constants/index.constants';
 
@@ -29,33 +28,31 @@ const generateTableHead = (title) => {
   return utils.create('thead', 'table-title-wrapper', headTr);
 };
 
-const generateTableFooter = () => {
-  utils.getCovidStats(constants.covidAPI.generalData).then((request) => {
-    const tableFooter = utils.create('div', 'table-footer');
-    const tableParams = isAllTimeStats
-      ? constants.tableParams.allTimeStats
-      : constants.tableParams.todayStats;
-    tableParams.forEach((params) => {
-      const footerDigitText = isTotalAmount
-        ? utils.addSpaces(request[params])
-        : utils.addSpaces(utils.recalcAmount(request[params], request.population));
-      const footerDigit = utils.create('span', 'table-footer-digit', footerDigitText);
-      const footerLetters = utils.create('span', 'table-footer-letters', 'Total');
-      if (params === 'cases' || params === 'todayCases') {
-        footerDigit.classList.add('negative');
-        footerLetters.classList.add('negative');
-      }
-      utils.create('div', 'table-footer-title', [footerDigit, footerLetters], tableFooter);
-    });
-
-    const domTableFooter = document.querySelector('.table-footer');
-
-    if (domTableFooter) {
-      domTableFooter.parentElement.removeChild(domTableFooter);
+const generateTableFooter = (covidStats) => {
+  const tableFooter = utils.create('div', 'table-footer');
+  const tableParams = isAllTimeStats
+    ? constants.tableParams.allTimeStats
+    : constants.tableParams.todayStats;
+  tableParams.forEach((params) => {
+    const footerDigitText = isTotalAmount
+      ? utils.addSpaces(covidStats[params])
+      : utils.addSpaces(utils.recalcAmount(covidStats[params], covidStats.population));
+    const footerDigit = utils.create('span', 'table-footer-digit', footerDigitText);
+    const footerLetters = utils.create('span', 'table-footer-letters', 'Total');
+    if (params === 'cases' || params === 'todayCases') {
+      footerDigit.classList.add('negative');
+      footerLetters.classList.add('negative');
     }
-
-    document.querySelector('#table').append(tableFooter);
+    utils.create('div', 'table-footer-title', [footerDigit, footerLetters], tableFooter);
   });
+
+  const domTableFooter = document.querySelector('.table-footer');
+
+  if (domTableFooter) {
+    domTableFooter.parentElement.removeChild(domTableFooter);
+  }
+
+  document.querySelector('#table').append(tableFooter);
 };
 
 const sortCovidStats = (covidStats, params) => {
@@ -77,32 +74,28 @@ const sortCovidStats = (covidStats, params) => {
   }
 };
 
-const generateTables = () => {
+const generateTables = (covidStats) => {
   const tablesWrapper = utils.create('div', 'table-wrapper');
-  utils.getCovidStats(constants.covidAPI.countriesData).then((request) => {
-    const tableParams = isAllTimeStats
-      ? constants.tableParams.allTimeStats
-      : constants.tableParams.todayStats;
-    tableParams.forEach((params) => {
-      sortCovidStats(request, params);
-      const tableLayout = utils.create('table', 'table', [generateTableHead(params), generateTableBody(request, params)]);
-      utils.create('div', '', tableLayout, tablesWrapper);
-    });
+  const tableParams = isAllTimeStats
+    ? constants.tableParams.allTimeStats
+    : constants.tableParams.todayStats;
+  tableParams.forEach((params) => {
+    sortCovidStats(covidStats.countriesStats, params);
+    const tableLayout = utils.create('table', 'table', [generateTableHead(params), generateTableBody(covidStats.countriesStats, params)]);
+    utils.create('div', '', tableLayout, tablesWrapper);
 
     const domTableWrapper = document.querySelector('.table-wrapper');
-    console.log(domTableWrapper);
 
     if (domTableWrapper) {
-      console.log('in');
       domTableWrapper.parentNode.removeChild(domTableWrapper);
     }
     document.querySelector('#table').append(tablesWrapper);
 
-    generateTableFooter();
+    generateTableFooter(covidStats.generalStats);
   });
 };
 
-const addEvents = () => {
+const addEvents = (covidStats) => {
   const covidStatsParam = [...document.querySelectorAll('.control-unit')];
 
   covidStatsParam.forEach((param) => {
@@ -114,7 +107,7 @@ const addEvents = () => {
         param.classList.add('active');
         covidStatsParam.find((item) => item.innerText === 'All Time').classList.remove('active');
         isAllTimeStats = false;
-        generateTables();
+        generateTables(covidStats);
       });
     }
     if (param.innerText === 'All Time') {
@@ -125,7 +118,7 @@ const addEvents = () => {
         param.classList.add('active');
         covidStatsParam.find((item) => item.innerText === '24H').classList.remove('active');
         isAllTimeStats = true;
-        generateTables();
+        generateTables(covidStats);
       });
     }
     if (param.innerText === 'Total Amount') {
@@ -136,7 +129,7 @@ const addEvents = () => {
         param.classList.add('active');
         covidStatsParam.find((item) => item.innerText === 'per 100K citizens').classList.remove('active');
         isTotalAmount = true;
-        generateTables();
+        generateTables(covidStats);
       });
     }
     if (param.innerText === 'per 100K citizens') {
@@ -147,7 +140,7 @@ const addEvents = () => {
         param.classList.add('active');
         covidStatsParam.find((item) => item.innerText === 'Total Amount').classList.remove('active');
         isTotalAmount = false;
-        generateTables();
+        generateTables(covidStats);
       });
     }
   });

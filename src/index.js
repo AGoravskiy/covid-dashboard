@@ -1,13 +1,10 @@
-// /* eslint-disable no-console */
+import app from './app';
 import './styles/styles.css';
 import './styles/map.css';
-import table from './js/components/table.component';
 import { generateMap } from './js/components/map.component';
 import mixData from './js/utils/mixData';
 
-table.generateTables();
-table.addEvents();
-
+app.init();
 fetch('./assets/countries.json')
   .then((result) => result.json())
   .then((poligon) => {
@@ -19,3 +16,5 @@ fetch('./assets/countries.json')
         // focusOnCountry(data,'Belarus')
       });
   });
+
+
