@@ -145,7 +145,7 @@
 }
 .table-wrapper {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1rem;
   max-height: 20rem;
 }
@@ -259,7 +259,7 @@
   font-size: 1rem;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1510px) {
   .dash-grid-layout {
     display: grid;
     grid-template-rows: 0.5fr 1fr 1fr 1fr 0.5fr;
@@ -269,5 +269,34 @@
       "map map map map map map"
       "chart chart chart chart chart chart"
       "footer footer footer footer footer footer";
+  }
+}
+
+@media (max-width: 1060px) {
+  .header-title-wrapper {
+    flex-direction: column;
+    max-height: 20rem;
+  }
+}
+
+@media (max-width: 840px) {
+  .dash-grid-layout {
+    grid-template-rows: 0.3fr 1fr 1fr 1fr 0.5fr;
+  }
+  .table-wrapper {
+    flex-direction: column;
+    max-height: 75rem;
+    align-items: center;
+  }
+
+  .table-wrapper > div {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5rem;
+    max-width: 30rem;
+  }
+
+  .table-footer {
+    display: none;
   }
 }
