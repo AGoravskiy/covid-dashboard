@@ -1,4 +1,4 @@
-export default function mixData(poligon, data, index) {
+export default function getMixObj(poligon, data) {
   const mixObj = {};
   for (const item of data) {
     mixObj[item.countryInfo.iso3] = {
@@ -6,6 +6,9 @@ export default function mixData(poligon, data, index) {
       cases: item.cases,
       recovered: item.recovered,
       deaths: item.deaths,
+      todayCases: item.todayCases,
+      todayDeaths: item.todayDeaths,
+      todayRecovered: item.todayRecovered,
       flag: item.countryInfo.flag,
     };
   }
@@ -16,6 +19,9 @@ export default function mixData(poligon, data, index) {
         cases: 'none',
         recovered: 'none',
         deaths: 'none',
+        todayCases: 'none',
+        todayDeaths: 'none',
+        todayRecovered: 'none',
         flag: './assets/images/whiteflag.png',
       };
     }

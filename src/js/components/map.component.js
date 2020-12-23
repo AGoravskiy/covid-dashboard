@@ -1,3 +1,9 @@
+// import utils from './js/utils/index.util';
+
+
+
+
+
 const mapOptions = {
   center: [17.385044, 8.486671],
   zoom: 2,
@@ -23,8 +29,13 @@ mapBottons.onAdd = function () {
 };
 mapBottons.addTo(map);
 
-export function generateMap(poligon, data, index, mixObj) {
+// let data = await utils.getCovidStats(constants.countriesData);
+// let poligon = await utils.getCountriesPoligon();
+// let mixObj = utils.getMixObj(poligon, covidStats.countriesStats);
+
+function generateMap(poligon, data, mixObj, tableParams, index = tableParams[0] ) {
   geojsonBox.length = 0;
+  console.log(index);
 
   let grades = [];
   let colors = [];
@@ -38,6 +49,19 @@ export function generateMap(poligon, data, index, mixObj) {
   }
   if (index === 'deaths') {
     grades = [1000, 10000, 20000, 50000, 100000, 200000, 300000];
+    colors = ['#08306b', '#08519c', '#2171b5', '#4292c6', '#6baed6', '#9ecae1', '#c6dbef', '#deebf7'];
+  }
+
+  if (index === 'todayCases') {
+    grades = [10, 50, 100, 200, 500, 1000, 2000];
+    colors = ['#800026', '#BD0026', '#E31A1C', '#FC4E2A', '#FD8D3C', '#FEB24C', '#FED976', '#FFEDA0'];
+  }
+  if (index === 'todayDeaths') {
+    grades = [10, 50, 100, 200, 500, 1000, 2000];
+    colors = ['#00441b', '#006d2c', '#238b45', '#41ab5d', '#74c476', '#a1d99b', '#c7e9c0', '#e5f5e0'];
+  }
+  if (index === 'todayRecovered') {
+    grades = [10, 50, 100, 200, 500, 1000, 2000];
     colors = ['#08306b', '#08519c', '#2171b5', '#4292c6', '#6baed6', '#9ecae1', '#c6dbef', '#deebf7'];
   }
   function getColor(d) {
@@ -179,25 +203,25 @@ export function generateMap(poligon, data, index, mixObj) {
   const recovered = document.getElementById('recovered');
   recovered.addEventListener('click', () => {
     map.removeLayer(geojsonBox[0]);
-    generateMap(poligon, data, 'recovered', mixObj);
+    generateMap(poligon, data, mixObj, tableParams, tableParams[2]);
   });
   const cases = document.getElementById('cases');
   cases.addEventListener('click', () => {
     map.removeLayer(geojsonBox[0]);
-    generateMap(poligon, data, 'cases', mixObj);
+    generateMap(poligon, data, mixObj, tableParams, tableParams[0]);
   });
   const deaths = document.getElementById('deaths');
   deaths.addEventListener('click', () => {
     map.removeLayer(geojsonBox[0]);
-    generateMap(poligon, data, 'deaths', mixObj);
+    generateMap(poligon, data, mixObj, tableParams, tableParams[1]);
   });
-
 }
 
-export function focusOnCountry(data, chooseCountry) {
+function focusOnCountry(data, chooseCountry) {
   for (let i = 0; i < data.length; i++) {
     if (data[i].country === chooseCountry) {
       map.setView([data[i].countryInfo.lat, data[i].countryInfo.long], 6);
     }
   }
 }
+export default { generateMap, focusOnCountry };
