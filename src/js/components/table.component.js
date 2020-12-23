@@ -7,20 +7,38 @@ let isTotalAmount = true;
 const generateTableBody = (covidData, title) => {
   const tableBody = utils.create('tbody', 'table-body');
   covidData.forEach((country) => {
-    const countryFlag = utils.create('td', 'table-img',
-      utils.create('img', null, null, null, ['src', `${country.countryInfo.flag}`]));
+    const countryFlag = utils.create(
+      'td',
+      'table-img',
+      utils.create('img', null, null, null, [
+        'src',
+        `${country.countryInfo.flag}`,
+      ]),
+    );
     const tableValueText = isTotalAmount
       ? utils.addSpaces(country[title])
       : utils.addSpaces(utils.recalcAmount(country[title], country.population));
     const tableValue = utils.create('td', 'table-digits', tableValueText);
     const tableCountry = utils.create('td', 'table-letters', country.country);
-    utils.create('tr', null, [tableValue, countryFlag, tableCountry], tableBody);
+    utils.create(
+      'tr',
+      null,
+      [tableValue, countryFlag, tableCountry],
+      tableBody,
+    );
   });
   return tableBody;
 };
 
 const generateTableHead = (title) => {
-  const headTh = utils.create('th', 'table-title', `Global ${title}`, null, ['colspan', '3'], ['table', title]);
+  const headTh = utils.create(
+    'th',
+    'table-title',
+    `Global ${title}`,
+    null,
+    ['colspan', '3'],
+    ['table', title],
+  );
   if (title === 'cases' || title === 'todayCases') {
     headTh.classList.add('negative');
   }
@@ -36,14 +54,25 @@ const generateTableFooter = (covidStats) => {
   tableParams.forEach((params) => {
     const footerDigitText = isTotalAmount
       ? utils.addSpaces(covidStats[params])
-      : utils.addSpaces(utils.recalcAmount(covidStats[params], covidStats.population));
-    const footerDigit = utils.create('span', 'table-footer-digit', footerDigitText);
+      : utils.addSpaces(
+        utils.recalcAmount(covidStats[params], covidStats.population),
+      );
+    const footerDigit = utils.create(
+      'span',
+      'table-footer-digit',
+      footerDigitText,
+    );
     const footerLetters = utils.create('span', 'table-footer-letters', 'Total');
     if (params === 'cases' || params === 'todayCases') {
       footerDigit.classList.add('negative');
       footerLetters.classList.add('negative');
     }
-    utils.create('div', 'table-footer-title', [footerDigit, footerLetters], tableFooter);
+    utils.create(
+      'div',
+      'table-footer-title',
+      [footerDigit, footerLetters],
+      tableFooter,
+    );
   });
 
   const domTableFooter = document.querySelector('.table-footer');
@@ -57,19 +86,27 @@ const generateTableFooter = (covidStats) => {
 
 const sortCovidStats = (covidStats, params) => {
   if (isTotalAmount) {
-    covidStats.sort((countryFirst, countrySecond) => countrySecond[params] - countryFirst[params]);
+    covidStats.sort(
+      (countryFirst, countrySecond) => countrySecond[params] - countryFirst[params],
+    );
   } else {
     if (params === 'cases' || params === 'todayCases') {
-      covidStats.sort((countryFirst, countrySecond) => countrySecond.casesPerOneMillion
-        - countryFirst.casesPerOneMillion);
+      covidStats.sort(
+        (countryFirst, countrySecond) => countrySecond.casesPerOneMillion
+        - countryFirst.casesPerOneMillion,
+      );
     }
     if (params === 'deaths' || params === 'todayDeaths') {
-      covidStats.sort((countryFirst, countrySecond) => countrySecond.deathsPerOneMillion
-        - countryFirst.deathsPerOneMillion);
+      covidStats.sort(
+        (countryFirst, countrySecond) => countrySecond.deathsPerOneMillion
+        - countryFirst.deathsPerOneMillion,
+      );
     }
     if (params === 'recovered' || params === 'todayRecovered') {
-      covidStats.sort((countryFirst, countrySecond) => countrySecond.recoveredPerOneMillion
-        - countryFirst.recoveredPerOneMillion);
+      covidStats.sort(
+        (countryFirst, countrySecond) => countrySecond.recoveredPerOneMillion
+          - countryFirst.recoveredPerOneMillion,
+      );
     }
   }
 };
@@ -81,7 +118,10 @@ const generateTables = (covidStats) => {
     : constants.tableParams.todayStats;
   tableParams.forEach((params) => {
     sortCovidStats(covidStats.countriesStats, params);
-    const tableLayout = utils.create('table', 'table', [generateTableHead(params), generateTableBody(covidStats.countriesStats, params)]);
+    const tableLayout = utils.create('table', 'table', [
+      generateTableHead(params),
+      generateTableBody(covidStats.countriesStats, params),
+    ]);
     utils.create('div', '', tableLayout, tablesWrapper);
 
     const domTableWrapper = document.querySelector('.table-wrapper');
@@ -105,7 +145,9 @@ const addEvents = (covidStats) => {
           return;
         }
         param.classList.add('active');
-        covidStatsParam.find((item) => item.innerText === 'All Time').classList.remove('active');
+        covidStatsParam
+          .find((item) => item.innerText === 'All Time')
+          .classList.remove('active');
         isAllTimeStats = false;
         generateTables(covidStats);
       });
@@ -116,7 +158,9 @@ const addEvents = (covidStats) => {
           return;
         }
         param.classList.add('active');
-        covidStatsParam.find((item) => item.innerText === '24H').classList.remove('active');
+        covidStatsParam
+          .find((item) => item.innerText === '24H')
+          .classList.remove('active');
         isAllTimeStats = true;
         generateTables(covidStats);
       });
@@ -127,7 +171,9 @@ const addEvents = (covidStats) => {
           return;
         }
         param.classList.add('active');
-        covidStatsParam.find((item) => item.innerText === 'per 100K citizens').classList.remove('active');
+        covidStatsParam
+          .find((item) => item.innerText === 'per 100K citizens')
+          .classList.remove('active');
         isTotalAmount = true;
         generateTables(covidStats);
       });
@@ -138,7 +184,9 @@ const addEvents = (covidStats) => {
           return;
         }
         param.classList.add('active');
-        covidStatsParam.find((item) => item.innerText === 'Total Amount').classList.remove('active');
+        covidStatsParam
+          .find((item) => item.innerText === 'Total Amount')
+          .classList.remove('active');
         isTotalAmount = false;
         generateTables(covidStats);
       });
