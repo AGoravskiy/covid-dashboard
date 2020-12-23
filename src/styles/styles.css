@@ -175,6 +175,10 @@
   border-bottom-style: dashed;
 }
 
+.active-row {
+  color:  blueviolet;
+}
+
 .table-controls-units-wrapper {
   display: flex;
   align-items: center;
