@@ -3,6 +3,8 @@ import map from './js/components/map.component';
 import constants from './js/constants/covidAPI.constants';
 import tableConstants from './js/constants/tables.constants';
 import utils from './js/utils/index.util';
+import generateChart from './js/components/chart.component';
+import allTime from './js/constants/chart.constants';
 
 const init = async () => {
   const covidStats = {};
@@ -11,6 +13,7 @@ const init = async () => {
 
   covidStats.countriesStats = await utils.getCovidStats(constants.countriesData);
   covidStats.generalStats = await utils.getCovidStats(constants.generalData);
+  covidStats.chartStats = await utils.getCovidStats(allTime);
   table.generateTables(covidStats);
   table.addEvents(covidStats);
 
@@ -18,6 +21,7 @@ const init = async () => {
   mixObj = utils.getMixObj(poligon, covidStats.countriesStats);
   map.generateMap(poligon, covidStats.countriesStats, mixObj, tableConstants.allTimeStats);
   // map.focusOnCountry(covidStats.countriesStats, 'Belarus')
+  generateChart(utils.divide(covidStats.chartStats.cases)[0], utils.divide(covidStats.chartStats.cases)[1], 'cases');
 };
 
 export default { init };

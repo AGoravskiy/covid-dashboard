@@ -1,5 +1,5 @@
-/* @import "~normalize.css"; */
-
+@import "~normalize.css";
+@import "./font/font.css";
 :root {
   --positive: #5f7367;
   --negative: #cf534a;
@@ -33,6 +33,10 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
 }
 
 #header {
