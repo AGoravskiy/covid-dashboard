@@ -12,11 +12,18 @@
         rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    
     <title>Covid-19 Dashboard</title>
 </head>
 
 <body>
+    
     <div class="dash-grid-layout">
         <section id="header" class="header-title-wrapper">
             <div class="logo-block">
@@ -49,15 +56,12 @@
                 </div>
             </div>
         </section>
-        <section id="map" class="map-wrapper">
+        <section id = "map" class="map-wrapper">
+            <div id="page-preloader" class="preloader">
+                <div class="loader"></div>
+            </div>
             <h2 class="sub-title">Map</h2>
-            <!-- <div style="position:relative;overflow:hidden;">
-                <a href="https://yandex.by/maps?utm_medium=mapframe&utm_source=maps" 
-                style="color:#eee;font-size:12px;position:absolute;top:0px;">Яндекс.Карты</a>
-                <a href="https://yandex.by/maps/covid19?ll=41.775580%2C54.894027&utm_medium=mapframe&utm_source=maps&z=3" 
-                style="color:#eee;font-size:12px;position:absolute;top:14px;">Карта распространения коронавируса в России и мире</a>
-                <iframe src="https://yandex.by/maps/covid19?embed=covid-map" allowfullscreen="true" width=100% height=100%
-                style="position:relative;"></iframe></div> -->
+            <div id = "mymap" class="map"></div>
         </section>
         <section id="chart" class="chart-wrapper">
 
@@ -89,7 +93,7 @@
             <p>Ссылки на источники данных</p>
         </section>
     </div>
-
+<script src="index.js" type="module"></script>
 </body>
 
 </html>
