@@ -1,9 +1,5 @@
 // import utils from './js/utils/index.util';
 
-
-
-
-
 const mapOptions = {
   center: [17.385044, 8.486671],
   zoom: 2,
@@ -33,10 +29,8 @@ mapBottons.addTo(map);
 // let poligon = await utils.getCountriesPoligon();
 // let mixObj = utils.getMixObj(poligon, covidStats.countriesStats);
 
-function generateMap(poligon, data, mixObj, tableParams, index = tableParams[0] ) {
+function generateMap(poligon, data, mixObj, tableParams, index = tableParams[0]) {
   geojsonBox.length = 0;
-  console.log(index);
-
   let grades = [];
   let colors = [];
   if (index === 'cases') {
