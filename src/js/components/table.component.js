@@ -15,11 +15,9 @@ const generateTableBody = (covidData, title) => {
       const tableCountry = utils.create('td', 'table-letters', country.country);
       utils.create('tr', 'table-row', [tableValue, countryFlag, tableCountry], tableBody);
     }
-
   });
   return tableBody;
 };
-
 
 const generateTableHead = (title, index) => {
   const headTh = utils.create('th', 'table-title', `Global ${title}`, null, ['colspan', '3'], ['table', title]);
