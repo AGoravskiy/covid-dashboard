@@ -16,10 +16,10 @@ function generateChart(datesOnXaxis, numbers, dataLabel) {
           label: dataLabel,
           data: numbers,
           backgroundColor: [
-            
+
           ],
           borderColor: [
-            
+
           ],
           borderWidth: 1,
         },
