@@ -135,18 +135,6 @@ const generateTables = (covidStats) => {
 
 const addEvents = (covidStats) => {
   const covidStatsParam = [...document.querySelectorAll('.control-unit')];
-  const table = document.querySelector('.table');
-
-  table.onclick = (event) => {
-    const { target } = event;
-
-    if (target.tagName === 'TD' || target.tagName === 'IMG') {
-      if (target.tagName === 'TD') {
-        console.log(target.parentNode);
-        target.parentNode.classList.add('active-row');
-      }
-    }
-  };
 
   covidStatsParam.forEach((param) => {
     if (param.innerText === '24H') {
