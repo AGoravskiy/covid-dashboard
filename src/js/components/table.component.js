@@ -15,9 +15,11 @@ const generateTableBody = (covidData, title) => {
       const tableCountry = utils.create('td', 'table-letters', country.country);
       utils.create('tr', 'table-row', [tableValue, countryFlag, tableCountry], tableBody);
     }
+
   });
   return tableBody;
 };
+
 
 const generateTableHead = (title, index) => {
   const headTh = utils.create('th', 'table-title', `Global ${title}`, null, ['colspan', '3'], ['table', title]);
@@ -50,7 +52,12 @@ const generateTableFooter = (covidStats) => {
       footerDigit.classList.add('negative');
       footerLetters.classList.add('negative');
     }
-    utils.create('div', 'table-footer-title', [footerDigit, footerLetters], tableFooter);
+    utils.create(
+      'div',
+      'table-footer-title',
+      [footerDigit, footerLetters],
+      tableFooter,
+    );
   });
 
   const domTableFooter = document.querySelector('.table-footer');
@@ -143,7 +150,9 @@ const addEvents = (covidStats) => {
           return;
         }
         param.classList.add('active');
-        covidStatsParam.find((item) => item.innerText === 'All Time').classList.remove('active');
+        covidStatsParam
+          .find((item) => item.innerText === 'All Time')
+          .classList.remove('active');
         isAllTimeStats = false;
         generateTables(covidStats);
       });
@@ -154,7 +163,9 @@ const addEvents = (covidStats) => {
           return;
         }
         param.classList.add('active');
-        covidStatsParam.find((item) => item.innerText === '24H').classList.remove('active');
+        covidStatsParam
+          .find((item) => item.innerText === '24H')
+          .classList.remove('active');
         isAllTimeStats = true;
         generateTables(covidStats);
       });
@@ -165,7 +176,9 @@ const addEvents = (covidStats) => {
           return;
         }
         param.classList.add('active');
-        covidStatsParam.find((item) => item.innerText === 'per 100K citizens').classList.remove('active');
+        covidStatsParam
+          .find((item) => item.innerText === 'per 100K citizens')
+          .classList.remove('active');
         isTotalAmount = true;
         generateTables(covidStats);
       });
@@ -176,7 +189,9 @@ const addEvents = (covidStats) => {
           return;
         }
         param.classList.add('active');
-        covidStatsParam.find((item) => item.innerText === 'Total Amount').classList.remove('active');
+        covidStatsParam
+          .find((item) => item.innerText === 'Total Amount')
+          .classList.remove('active');
         isTotalAmount = false;
         generateTables(covidStats);
       });

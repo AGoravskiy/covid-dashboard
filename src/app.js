@@ -1,6 +1,8 @@
 import table from './js/components/table.component';
 import constants from './js/constants/covidAPI.constants';
 import utils from './js/utils/index.util';
+import generateChart from './js/components/chart.component';
+import allTime from './js/constants/chart.constants';
 
 const init = async () => {
   const covidStats = {};
@@ -18,8 +20,10 @@ const init = async () => {
 
   const updatedDate = new Date(covidStats.generalStats.updated);
   document.body.querySelector('.date').innerText = `${document.body.querySelector('.date').innerText} ${updatedDate.toLocaleString()}`;
+  covidStats.chartStats = await utils.getCovidStats(allTime);
   table.generateTables(covidStats);
   table.addEvents(covidStats);
+  generateChart(utils.divide(covidStats.chartStats.cases)[0], utils.divide(covidStats.chartStats.cases)[1], 'cases');
 };
 
 export default { init };
