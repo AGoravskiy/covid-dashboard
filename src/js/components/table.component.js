@@ -4,6 +4,13 @@ import constants from '../constants/index.constants';
 let isAllTimeStats = true;
 let isTotalAmount = true;
 
+const fullScreenBtn = document.querySelector('#table-full-screen-btn');
+const open = document.querySelector('#table-full-screen-on');
+const close = document.querySelector('#table-full-screen-off');
+const grid = document.querySelector('.dash-grid-layout');
+const map = document.querySelector('#map');
+const chart = document.querySelector('#chart');
+
 const generateTableBody = (covidData, title) => {
   const tableBody = utils.create('tbody', 'table-body');
   covidData.forEach((country) => {
@@ -170,6 +177,14 @@ const addEvents = (covidStats) => {
         generateTables(covidStats);
       });
     }
+  });
+
+  fullScreenBtn.addEventListener('click', () => {
+    open.classList.toggle('hidden');
+    grid.classList.toggle('table-full-screen');
+    close.classList.toggle('hidden');
+    chart.classList.toggle('hidden');
+    map.classList.toggle('hidden');
   });
 };
 

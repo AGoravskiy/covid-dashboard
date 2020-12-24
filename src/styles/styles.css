@@ -12,7 +12,6 @@
   grid-template-areas:
     "header header header header header search search"
     "map map map table table table table"
-    "map map map table table table table"
     "map map map table table table table" 
     "map map map table table table table"
     "map map map table table table table"
@@ -169,6 +168,12 @@
 
 .table-title-wrapper {
   gap: 2rem;
+}
+
+.table-full-screen {
+  grid-template-areas:
+    "header header header header header search search"
+    "table table table table table table table"
 }
 
 .table-controls {
