@@ -1,3 +1,5 @@
+// import utils from './js/utils/index.util';
+
 const grid = document.querySelector('.dash-grid-layout');
 const wide = document.querySelector('.map-wide-screen');
 const open = document.querySelector('.open-button');
