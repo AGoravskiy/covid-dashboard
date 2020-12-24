@@ -15,7 +15,7 @@
     "map map map table table table table"
     "map map map table table table table" 
     "map map map table table table table"
-    /* "map map map table table table" */
+    "map map map table table table table"
     "map map map chart chart chart chart"
     "map map map chart chart chart chart"
     "map map map chart chart chart chart"
@@ -145,18 +145,19 @@
 
 /* table */
 .table {
-  border-spacing: 0;
+  border-spacing: 0.1rem;
 }
+
+.table-layout-wrapper {
+  max-height: 10rem;
+  overflow-y: scroll;
+}
+
 .table-wrapper {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
   max-height: 12rem;
-}
-
-.table-wrapper > div {
-  max-height: 20rem;
-  overflow-y: scroll;
 }
 
 .table-title-wrapper {
@@ -179,10 +180,6 @@
   border-bottom-style: dashed;
 }
 
-.active-row {
-  color:  blueviolet;
-}
-
 .table-controls-units-wrapper {
   display: flex;
   align-items: center;
@@ -199,13 +196,12 @@
 }
 
 .table-title {
-  position: sticky;
-  top: -1%;
-  padding: 0;
+  text-align: center;
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1rem;
+  font-weight: bold;
   background-color: white;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
   color: var(--main);
 }
 
@@ -227,14 +223,14 @@
 }
 
 .table-footer {
+  padding: .5rem;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .table-footer-digit {
   font-family: "Source Code Pro", monospace;
   font-weight: bold;
-  padding-right: 2rem;
 }
 
 .table-footer-letters {
@@ -286,21 +282,10 @@
     grid-template-rows: 0.3fr 1fr 1fr 1fr 0.5fr;
   }
   .table-wrapper {
-    /* flex-direction: column; */
     max-height: 75rem;
     align-items: center;
   }
 
-  .table-wrapper > div {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 5rem;
-    max-width: 30rem;
-  }
-
-  .table-footer {
-    display: none;
-  }
   #map{
     height: 30rem;
   }
@@ -317,16 +302,10 @@
     align-items: center;
   }
   .table-wrapper > div {
-    position: relative;
     display: flex;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+    flex-direction: column;
     font-size: 1.25rem;
     margin-bottom: 2rem;
-    
-    /* margin-bottom: 5rem;
-    max-width: 30rem; */
   }
   .header-title{
     font-size: 2.5rem;

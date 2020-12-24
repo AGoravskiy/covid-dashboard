@@ -1,5 +1,12 @@
-// import utils from './js/utils/index.util';
-
+const grid = document.querySelector('.dash-grid-layout');
+const wide = document.querySelector('.map-wide-screen');
+const open = document.querySelector('.open-button');
+const close = document.querySelector('.close-button');
+wide.addEventListener('click', (e) => {
+  open.classList.toggle('hidden');
+  grid.classList.toggle('wide-map');
+  close.classList.toggle('hidden');
+});
 const mapOptions = {
   center: [17.385044, 8.486671],
   zoom: 2,
