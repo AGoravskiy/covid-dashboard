@@ -6,6 +6,10 @@ import utils from '../utils/index.util';
 utils.divide(23);
 const ctx = document.getElementById('chart-field').getContext('2d');
 
+function transformData(data){
+console.log(data);
+};
+
 function generateChart(datesOnXaxis, numbers, dataLabel) {
   const myChart = new Chart(ctx, {
     type: 'bar',
@@ -39,4 +43,4 @@ function generateChart(datesOnXaxis, numbers, dataLabel) {
   });
 }
 
-export default generateChart;
+export default transformData;
