@@ -10,7 +10,7 @@ function divide(data) {
     dates.push(el[0]);
     cases.push(el[1]);
   });
-
+  
   return [dates, cases];
 }
 

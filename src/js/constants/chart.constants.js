@@ -1,7 +1,9 @@
 import totalDateCount from '../utils/totalDateCounter.util';
+import divide from '../utils/divider.util'
 
-const allTime = `historical/all?lastdays=${totalDateCount()}`;
-// const totalAmountAxixX = 
+const allTimeStatsChart = {
+path: `historical/all?lastdays=${totalDateCount()}`,
+};
 
-export default allTime
 
+export default allTimeStatsChart;
