@@ -1,0 +1,358 @@
+@import "~normalize.css";
+@import "./font/font.css";
+:root {
+  --positive: #5f7367;
+  --negative: #cf534a;
+  --background: #fffefc;
+  --main: #032b43;
+}
+
+.dash-grid-layout {
+  display: grid;
+  grid-template-areas:
+    "header header header header header search search"
+    "map map map table table table table"
+    "map map map table table table table" 
+    "map map map table table table table"
+    "map map map table table table table"
+    "map map map chart chart chart chart"
+    "map map map chart chart chart chart"
+    "map map map chart chart chart chart"
+    "map map map chart chart chart chart";
+    /* "footer footer footer footer footer footer"; */
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(9, 9.5%);
+  margin-left: auto;
+  margin-right: auto;
+  grid-gap: 1rem;
+  width: 95vw;
+  height: 90vh;
+  box-sizing: border-box;
+
+}
+.wide-map{
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  grid-template-areas:
+  "map" ;
+}
+
+.hidden {
+  display: none;
+}
+
+#header {
+  grid-area: header;
+}
+
+#table {
+  grid-area: table;
+}
+
+#map {
+  grid-area: map;
+  background-color: rgba(233, 123, 211, 0.1);
+}
+
+#chart {
+  grid-area: chart;
+}
+
+#footer {
+  grid-area: footer;
+}
+.search-wrapper{
+  grid-area: search;
+
+}
+
+.positive {
+  color: var(--positive) !important ;
+}
+
+.negative {
+  color: var(--negative) !important;
+}
+
+/* title */
+.header-title {
+  font-family: "Abril Fatface", cursive;
+  font-size: 2rem;
+  margin: 0;
+  padding: 0;
+  color: var(--main);
+}
+
+.sub-title {
+  font-family: "Abril Fatface", cursive;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 0;
+  color: var(--main);
+}
+
+.logo-block {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.logo {
+  width: 3rem;
+  height: 3rem;
+}
+
+.date {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 2rem;
+  color: var(--main);
+  text-align: left;
+  margin: 0;
+  padding: 0 0 0 1rem;
+}
+
+.header-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* search */
+.search-wrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.search-field {
+  height: 1.2rem;
+  border: solid 1px gray;
+  border-radius: 16px;
+}
+
+.search-title {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1rem;
+}
+
+.search-button {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-image {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* table */
+.table {
+  border-spacing: 0.1rem;
+}
+
+.table-layout-wrapper {
+  max-height: 10rem;
+  overflow-y: scroll;
+}
+
+.table-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  max-height: 12rem;
+}
+
+.table-title-wrapper {
+  gap: 2rem;
+}
+
+.table-full-screen {
+  grid-template-areas:
+    "header header header header header search search"
+    "table table table table table table table"
+}
+
+.table-controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  line-height: 100%;
+}
+
+.control-unit {
+  font-family: "Source Sans Pro", sans-serif;
+  text-decoration: none;
+}
+
+.active {
+  border-bottom-style: dashed;
+}
+
+.table-controls-units-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.table-img {
+  text-align: right;
+}
+
+.table-img img {
+  width: 2rem;
+  padding-left: 1rem;
+}
+
+.table-title {
+  text-align: center;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: white;
+  padding-bottom: 0.5rem;
+  color: var(--main);
+}
+
+.table-digits {
+  font-family: "Source Code Pro", monospace;
+  color: var(--main);
+  text-align: right;
+  padding-left: 1rem;
+}
+
+.table-letters {
+  font-family: "Source Sans Pro", sans-serif;
+  color: var(--main);
+  text-align: left;
+}
+
+.table-finish-dots {
+  text-align: center;
+}
+
+.table-footer {
+  padding: .5rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.table-footer-digit {
+  font-family: "Source Code Pro", monospace;
+  font-weight: bold;
+}
+
+.table-footer-letters {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: bold;
+}
+
+.factoid {
+  font-family: "Source Code Pro", monospace;
+  font-weight: 700;
+}
+
+.map-wrapper {
+  margin-bottom: 1rem;
+}
+
+.chart-wrapper {
+  margin-bottom: 1rem;
+  background-color: rgba(233, 123, 211, 0.1);
+}
+#chart-field{
+  height: 80% !important;
+}
+
+/* footer */
+.footer-wrapper {
+  display: flex;
+  gap: 1rem;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1rem;
+}
+
+/* @media (max-width: 1510px) {
+  .dash-grid-layout {
+    display: grid;
+    grid-template-rows: 0.5fr 1fr 1fr 1fr 0.5fr;
+    grid-template-areas:
+      "header header header header header header"
+      "table table table table table table"
+      "map map map map map map"
+      "chart chart chart chart chart chart"
+      "footer footer footer footer footer footer";
+  }
+} */
+
+/* @media (max-width: 1060px) {
+  .header-title-wrapper {
+    flex-direction: column;
+    max-height: 20rem;
+  }
+} */
+@media (max-width: 1025px)
+{
+
+
+}
+@media (max-width: 1000px) {
+  .dash-grid-layout {
+    display: grid;
+    grid-template-rows: 0.5fr 1fr 1fr 1fr 0.5fr 0fr;
+    grid-template-areas:
+      "header header header header header header header"
+      "search search search search search search search"
+      "table table table table table table table"
+      "map map map map map map map"
+      "chart chart chart chart chart chart chart"
+      "footer footer footer footer footer footer footer";
+  }
+  .date {
+    font-size: 1.5rem;
+  }
+  .dash-grid-layout {
+    grid-template-rows: 0.3fr 1fr 1fr 1fr 0.5fr;
+  }
+  .table-wrapper {
+    max-height: 75rem;
+    align-items: center;
+  }
+
+  #map{
+    height: 30rem;
+  }
+  .table-title{
+    font-size: 1.25rem;
+    padding-bottom: 1rem;
+  }
+}
+@media (max-width: 768px)
+{
+  .table-wrapper {
+    flex-direction: column;
+    max-height: 50rem;
+    align-items: center;
+  }
+  .table-wrapper > div {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .header-title{
+    font-size: 2.5rem;
+  }
+  .sub-title{
+    font-size: 2rem;
+  }
+  .table-title{
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
+    background-color: white;
+  }
+    
+}
