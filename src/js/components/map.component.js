@@ -9,7 +9,6 @@ wide.addEventListener('click', (e) => {
   grid.classList.toggle('wide-map');
   close.classList.toggle('hidden');
 });
-
 const mapOptions = {
   center: [17.385044, 8.486671],
   zoom: 2,

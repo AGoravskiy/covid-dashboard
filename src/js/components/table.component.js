@@ -4,6 +4,13 @@ import constants from '../constants/index.constants';
 let isAllTimeStats = true;
 let isTotalAmount = true;
 
+const fullScreenBtn = document.querySelector('#table-full-screen-btn');
+const open = document.querySelector('#table-full-screen-on');
+const close = document.querySelector('#table-full-screen-off');
+const grid = document.querySelector('.dash-grid-layout');
+const map = document.querySelector('#map');
+const chart = document.querySelector('#chart');
+
 const generateTableBody = (covidData, title) => {
   const tableBody = utils.create('tbody', 'table-body');
   covidData.forEach((country) => {
@@ -19,15 +26,6 @@ const generateTableBody = (covidData, title) => {
   return tableBody;
 };
 
-const generateTableHead = (title, index) => {
-  const headTh = utils.create('th', 'table-title', `Global ${title}`, null, ['colspan', '3'], ['table', title]);
-  if (index === 0) {
-    headTh.classList.add('negative');
-  }
-  const headTr = utils.create('tr', 'table-row', headTh);
-  return utils.create('thead', 'table-title-wrapper', headTr);
-};
-
 const findTableParams = () => {
   if (isAllTimeStats && isTotalAmount) {
     return constants.tableParams.allTimeStats;
@@ -37,34 +35,6 @@ const findTableParams = () => {
     return constants.tableParams.todayStats;
   }
   return constants.tableParams.todayStatsPer100K;
-};
-
-const generateTableFooter = (covidStats) => {
-  const tableFooter = utils.create('div', 'table-footer');
-  const tableParams = findTableParams();
-  tableParams.forEach((params) => {
-    const footerDigitText = utils.addSpaces(covidStats[params]);
-    const footerDigit = utils.create('span', 'table-footer-digit', footerDigitText);
-    const footerLetters = utils.create('span', 'table-footer-letters', 'Total');
-    if (tableParams.indexOf(params) === 0) {
-      footerDigit.classList.add('negative');
-      footerLetters.classList.add('negative');
-    }
-    utils.create(
-      'div',
-      'table-footer-title',
-      [footerDigit, footerLetters],
-      tableFooter,
-    );
-  });
-
-  const domTableFooter = document.querySelector('.table-footer');
-
-  if (domTableFooter) {
-    domTableFooter.parentElement.removeChild(domTableFooter);
-  }
-
-  document.querySelector('#table').append(tableFooter);
 };
 
 const sortCovidStats = (covidStats, params) => {
@@ -124,8 +94,23 @@ const generateTables = (covidStats) => {
   const tableParams = findTableParams();
   tableParams.forEach((params) => {
     sortCovidStats(covidStats.countriesStats, params);
-    const tableLayout = utils.create('table', 'table', [generateTableHead(params, tableParams.indexOf(params)), generateTableBody(covidStats.countriesStats, params)]);
-    utils.create('div', '', tableLayout, tablesWrapper);
+    const tableHeader = utils.create('div', 'table-title', `Global ${params}`);
+    const tableLayout = utils.create('table', 'table', [generateTableBody(covidStats.countriesStats, params)]);
+    const tableWrapper = utils.create('div', 'table-layout-wrapper', tableLayout);
+    const footerDigitText = utils.addSpaces(covidStats.generalStats[params]);
+    const footerDigit = utils.create('span', 'table-footer-digit', footerDigitText);
+    const footerLetters = utils.create('span', 'table-footer-letters', 'Total');
+    const tableFooter = utils.create(
+      'div',
+      'table-footer',
+      [footerDigit, footerLetters],
+    );
+    if (tableParams.indexOf(params) === 0) {
+      tableHeader.classList.add('negative');
+      footerDigit.classList.add('negative');
+      footerLetters.classList.add('negative');
+    }
+    utils.create('div', '', [tableHeader, tableWrapper, tableFooter], tablesWrapper);
 
     const domTableWrapper = document.querySelector('.table-wrapper');
 
@@ -133,8 +118,6 @@ const generateTables = (covidStats) => {
       domTableWrapper.parentNode.removeChild(domTableWrapper);
     }
     document.querySelector('#table').append(tablesWrapper);
-
-    generateTableFooter(covidStats.generalStats);
   });
 };
 
@@ -194,6 +177,14 @@ const addEvents = (covidStats) => {
         generateTables(covidStats);
       });
     }
+  });
+
+  fullScreenBtn.addEventListener('click', () => {
+    open.classList.toggle('hidden');
+    grid.classList.toggle('table-full-screen');
+    close.classList.toggle('hidden');
+    chart.classList.toggle('hidden');
+    map.classList.toggle('hidden');
   });
 };
 
